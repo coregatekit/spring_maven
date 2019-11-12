@@ -34,4 +34,21 @@ public class PlaneJunitTest {
             System.out.println("\n\n\n PlaneNameNotPattern\n" + violations);
         }
     }
+
+    @Test
+    public void PlaneNullModel() {
+        Plane plane = new Plane();
+        plane.setPlaneName("นครราชสีมา");
+        plane.setPlaneModel("Airbus A350-900");
+
+        try {
+            entityManager.persist(plane);
+            entityManager.flush();
+        } catch (ConstraintViolationException e) {
+            Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+            assertEquals(violations, false);
+            assertEquals(violations.size(), 1);
+            System.out.println("\n\n\n PlaneNullModel\n" + violations);
+        }
+    }
 }

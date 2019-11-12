@@ -4,12 +4,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import com.example.demo.Entity.Plane;
 import com.example.demo.Repository.PlaneRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -29,5 +31,10 @@ public class PlaneController {
         plane.setPlaneName(body.get("planeName").toString());
         plane.setPlaneModel(body.get("planeModel").toString());
         return planeRepository.save(plane);
+    }
+
+    @GetMapping("/Planes/{id}")
+    public Optional<Plane> secretPlane(@PathVariable Long id) {
+        return planeRepository.findById(id);
     }
 }
