@@ -1,9 +1,6 @@
 pipeline {
     agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v $HOME/.m2:/root/.m2'
-        }
+        dockerfile true
     }
     tools { 
         maven 'Maven 3.6.2' 
@@ -13,6 +10,11 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn -B'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -d spring-maven .'
             }
         }
         stage('Test') {
@@ -25,6 +27,7 @@ pipeline {
                 }
             }
         }
+        
     }
 }
 
