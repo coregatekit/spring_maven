@@ -9,11 +9,11 @@ pipeline {
         maven 'Maven 3.6.2' 
         jdk 'jdk8' 
     }
-    
+
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B'
+                sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(
-                        credentialsId: 'docker-credential',
+                        credentialsId: 'Dockerhub',
                         url: 'https://index.docker.io/v1/'
                     ) {
                         dockerImage.push()
