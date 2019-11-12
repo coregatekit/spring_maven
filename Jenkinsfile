@@ -5,6 +5,12 @@ pipeline {
         dockerImage = ''
     }
 
+    parameters {
+        string(name: 'Tag',
+        defaultValue: 'latest',
+        description: 'Set tag for docker image')
+    }
+
     tools { 
         maven 'Maven 3.6.2' 
         jdk 'jdk8' 
@@ -29,7 +35,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    dockerImage = docker.build("coregatekit/spring-maven")
+                    dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
                 }
             }
         }
