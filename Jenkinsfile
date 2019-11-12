@@ -12,11 +12,6 @@ pipeline {
                 sh 'mvn -B'
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -d spring-maven .'
-            }
-        }
         stage('Test') {
             steps {
                 sh 'mvn test'
@@ -27,7 +22,11 @@ pipeline {
                 }
             }
         }
-        
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t spring-maven .'
+            }
+        }
     }
 }
 
