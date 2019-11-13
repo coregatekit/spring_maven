@@ -43,9 +43,13 @@ pipeline {
             stage('Build image') {
                 steps {
                     script {
-                        dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
+                        // dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
+                        dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
                     }
                 }
+            }
+            stage('Push image') {
+                pushDocker()
             }
         }
 }
