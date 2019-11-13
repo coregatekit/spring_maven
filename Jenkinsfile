@@ -14,6 +14,7 @@ pipeline {
     tools { 
         maven 'Maven 3.6.2' 
         jdk 'jdk8' 
+        ansiColor('xterm')
     }
 
     options {
@@ -22,11 +23,10 @@ pipeline {
 
     stages {
             stage('Build') {
-                ansiColor('xterm') {
-                    ansiblePlaybook(
-                    steps {
+                steps {
+                    ansiColor('xterm') {
                         sh 'mvn -B -DskipTests clean package'
-                    })
+                    }
                 }
             }
             stage('Test') {
