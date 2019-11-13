@@ -24,9 +24,8 @@ pipeline {
         ansiColor('xterm')
     }
 
-    stages {
-            stage('Build') {
-                sh javaBuild()
+    stage('Build') {
+        sh javaBuild()
             }
             stage('Test') {
                 sh javaTest()
@@ -55,5 +54,4 @@ pipeline {
             //         }
             //     }
             // }
-        }
 }
