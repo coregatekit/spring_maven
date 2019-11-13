@@ -16,6 +16,15 @@ pipeline {
         jdk 'jdk8' 
     }
 
+    properties([
+        [$class: 'JiraProjectProperty'],
+        buildDiscarder(
+            logRotator(
+                artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'
+                )
+            )
+        ])
+
     stages {
         stage('Build') {
             steps {
