@@ -18,14 +18,15 @@ pipeline {
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
-        ansiColor('xterm')
     }
 
-    ansiColor('xterm') {
-        stages {
+    stages {
             stage('Build') {
-                steps {
-                    sh 'mvn -B -DskipTests clean package'
+                ansiColor('xterm') {
+                    ansiblePlaybook(
+                    steps {
+                        sh 'mvn -B -DskipTests clean package'
+                    })
                 }
             }
             stage('Test') {
@@ -58,6 +59,4 @@ pipeline {
                 }
             }
         }
-    }
 }
-
