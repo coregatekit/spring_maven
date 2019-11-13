@@ -16,14 +16,9 @@ pipeline {
         jdk 'jdk8' 
     }
 
-    properties([
-        [$class: 'JiraProjectProperty'],
-        buildDiscarder(
-            logRotator(
-                artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'
-                )
-            )
-        ])
+    options {
+        properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '10']]]);
+    }
 
     stages {
         stage('Build') {
