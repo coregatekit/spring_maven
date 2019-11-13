@@ -24,11 +24,16 @@ pipeline {
         ansiColor('xterm')
     }
 
-    stage('Build') {
-        sh javaBuild()
+    stages {
+            stage('Build') {
+                steps {
+                    sh 'mvn -B -Dstyle.color=always -DskipTests clean package'
+                }
             }
             stage('Test') {
-                sh javaTest()
+                steps {
+                    sh 'mvn -Dstyle.color=always test'
+                }
                 post {
                     always {
                         junit 'target/surefire-reports/*.xml'
@@ -54,4 +59,5 @@ pipeline {
             //         }
             //     }
             // }
+        }
 }
