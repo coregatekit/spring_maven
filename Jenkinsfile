@@ -21,8 +21,8 @@ pipeline {
         ansiColor('xterm')
     }
 
-    stages {
-        ansiColor('xterm') {
+    ansiColor('xterm') {
+        stages {
             stage('Build') {
                 steps {
                     sh 'mvn -B -DskipTests clean package'
