@@ -18,13 +18,14 @@ pipeline {
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
+        ansiColor('xterm')
     }
 
     stages {
             stage('Build') {
                 steps {
                     ansiColor('xterm') {
-                        echo '=====Build Stage====='
+                        sh 'echo -e "Default \e[32m===== Build stage ====="'
                     }
                     sh 'mvn -B -DskipTests clean package'
                 }
@@ -46,17 +47,17 @@ pipeline {
                     }
                 }
             }
-            stage('Push image') {
-                steps {
-                    script {
-                        withDockerRegistry(
-                            credentialsId: 'Dockerhub',
-                            url: 'https://index.docker.io/v1/'
-                        ) {
-                            dockerImage.push()
-                        }
-                    }
-                }
-            }
+            // stage('Push image') {
+            //     steps {
+            //         script {
+            //             withDockerRegistry(
+            //                 credentialsId: 'Dockerhub',
+            //                 url: 'https://index.docker.io/v1/'
+            //             ) {
+            //                 dockerImage.push()
+            //             }
+            //         }
+            //     }
+            // }
         }
 }
