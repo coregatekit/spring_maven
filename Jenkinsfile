@@ -1,6 +1,7 @@
 @Library("jenkins-shared-libraries") _
 
-node () {
+pipeline {
+    agent any
 
     environment {
         dockerImage = ''
@@ -13,21 +14,38 @@ node () {
         description: 'Set tag for docker image')
     }
 
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '10'))
-        ansiColor('xterm')
-    }
-    
     tools { 
         maven 'Maven 3.6.2' 
         jdk 'jdk8' 
     }
 
-    stage("Build") {
-        javaBuild()
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        ansiColor('xterm')
     }
 
-    stage("Test") {
-        javaTest()
-    }
+    stages {
+            stage('Build') {
+                steps {
+                    javaBuild()
+                }
+            }
+            stage('Test') {
+                steps {
+                    javaTest()
+                }
+                post {
+                    always {
+                        junit 'target/surefire-reports/*.xml'
+                    }
+                }
+            }
+            stage('Build image') {
+                steps {
+                    script {
+                        dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
+                    }
+                }
+            }
+        }
 }
