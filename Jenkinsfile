@@ -27,12 +27,12 @@ pipeline {
     stages {
             stage('Build') {
                 steps {
-                    javaBuild()
+                    sh javaBuild()
                 }
             }
             stage('Test') {
                 steps {
-                    javaTest()
+                    sh javaTest()
                 }
                 post {
                     always {
