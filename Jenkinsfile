@@ -25,8 +25,9 @@ pipeline {
             stage('Build') {
                 steps {
                     ansiColor('xterm') {
-                        sh '\e[31mmvn -B -DskipTests clean package\e[0m\n'
+                        echo '=====Build Stage====='
                     }
+                    sh 'mvn -B -DskipTests clean package'
                 }
             }
             stage('Test') {
