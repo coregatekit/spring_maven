@@ -22,42 +22,36 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-                ansiColor('xterm') {
+        ansiColor('xterm') {
+            stage('Build') {
+                steps {
                     sh 'mvn -B -DskipTests clean package'
                 }
             }
-        }
-        stage('Test') {
-            steps {
-                ansiColor('xterm') {
+            stage('Test') {
+                steps {
                     sh 'mvn test'
                 }
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                post {
+                    always {
+                        junit 'target/surefire-reports/*.xml'
+                    }
                 }
             }
-        }
-        stage('Build image') {
-            steps {
-                script {
-                    ansiColor('xterm') {
+            stage('Build image') {
+                steps {
+                    script {
                         dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
                     }
                 }
             }
-        }
-        stage('Push image') {
-            steps {
-                script {
-                    withDockerRegistry(
-                        credentialsId: 'Dockerhub',
-                        url: 'https://index.docker.io/v1/'
-                    ) {
-                        ansiColor('xterm') {
+            stage('Push image') {
+                steps {
+                    script {
+                        withDockerRegistry(
+                            credentialsId: 'Dockerhub',
+                            url: 'https://index.docker.io/v1/'
+                        ) {
                             dockerImage.push()
                         }
                     }
