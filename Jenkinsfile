@@ -23,39 +23,39 @@ spipeline {
     }
 
     stages {
-            stage('Build') {
-                steps {
-                    sh 'mvn -B -Dstyle.color=always -DskipTests clean package'
-                }
+        stage('Build') {
+            steps {
+                sh 'mvn -B -Dstyle.color=always -DskipTests clean package'
             }
-            stage('Test') {
-                steps {
-                    sh 'mvn -Dstyle.color=always test'
-                }
-                post {
-                    always {
-                        junit 'target/surefire-reports/*.xml'
-                    }
-                }
-            }
-            stage('Build image') {
-                steps {
-                    script {
-                        dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
-                    }
-                }
-            }
-            // stage('Push image') {
-            //     steps {
-            //         script {
-            //             withDockerRegistry(
-            //                 credentialsId: 'Dockerhub',
-            //                 url: 'https://index.docker.io/v1/'
-            //             ) {
-            //                 dockerImage.push()
-            //             }
-            //         }
-            //     }
-            // }
         }
+        stage('Test') {
+            steps {
+                sh 'mvn -Dstyle.color=always test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+        stage('Build image') {
+            steps {
+                script {
+                    dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
+                }
+            }
+        }
+        stage('Push image') {
+            steps {
+                script {
+                    withDockerRegistry(
+                        credentialsId: 'Dockerhub',
+                        url: 'https://index.docker.io/v1/'
+                    ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+    }
 }
