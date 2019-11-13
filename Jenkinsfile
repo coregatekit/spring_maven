@@ -24,12 +24,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                ansiColor('xterm') {
+                    sh 'mvn -B -DskipTests clean package'
+                }
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                ansiColor('xterm') {
+                    sh 'mvn test'
+                }
             }
             post {
                 always {
@@ -40,7 +44,9 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
+                    ansiColor('xterm') {
+                        dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
+                    }
                 }
             }
         }
@@ -51,7 +57,9 @@ pipeline {
                         credentialsId: 'Dockerhub',
                         url: 'https://index.docker.io/v1/'
                     ) {
-                        dockerImage.push()
+                        ansiColor('xterm') {
+                            dockerImage.push()
+                        }
                     }
                 }
             }
