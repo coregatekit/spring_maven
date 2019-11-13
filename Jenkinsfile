@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         dockerImage = ''
+        MAVEN_OPTS = '-Djansi.force=true'
     }
 
     parameters {
@@ -24,15 +25,12 @@ pipeline {
     stages {
             stage('Build') {
                 steps {
-                    ansiColor('xterm') {
-                        sh 'echo -e "\e[31m ===== Build Stage =====\e[0m"'
-                    }
-                    sh 'mvn -B -DskipTests clean package'
+                    sh 'mvn -B -Dstyle.color=aways -DskipTests clean package'
                 }
             }
             stage('Test') {
                 steps {
-                    sh 'mvn test'
+                    sh 'mvn -Dstyle.color=aways test'
                 }
                 post {
                     always {
