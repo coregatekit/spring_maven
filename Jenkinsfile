@@ -17,7 +17,7 @@ pipeline {
     }
 
     options {
-        properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '10']]]);
+        buildDiscarder(logRotator(numToKeepStr: '10'))
     }
 
     stages {
