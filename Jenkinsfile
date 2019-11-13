@@ -48,8 +48,5 @@ pipeline {
                     }
                 }
             }
-            stage('Push image') {
-                pushDocker()
-            }
         }
 }
