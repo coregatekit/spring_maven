@@ -25,12 +25,12 @@ pipeline {
     stages {
             stage('Build') {
                 steps {
-                    sh 'mvn -B -Dstyle.color=aways -DskipTests clean package'
+                    sh 'mvn -B -Dstyle.color=always -DskipTests clean package'
                 }
             }
             stage('Test') {
                 steps {
-                    sh 'mvn -Dstyle.color=aways test'
+                    sh 'mvn -Dstyle.color=always test'
                 }
                 post {
                     always {
