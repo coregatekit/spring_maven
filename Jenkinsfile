@@ -1,4 +1,6 @@
-spipeline {
+@Library("jenkins-shared-libraries") _
+
+pipeline {
     agent any
 
     environment {
@@ -22,16 +24,11 @@ spipeline {
         ansiColor('xterm')
     }
 
-    stages {
-            stage('Build') {
-                steps {
-                    sh 'mvn -B -Dstyle.color=always -DskipTests clean package'
-                }
+    stage('Build') {
+        sh javaBuild()
             }
             stage('Test') {
-                steps {
-                    sh 'mvn -Dstyle.color=always test'
-                }
+                sh javaTest()
                 post {
                     always {
                         junit 'target/surefire-reports/*.xml'
@@ -57,5 +54,4 @@ spipeline {
             //         }
             //     }
             // }
-        }
 }
