@@ -26,14 +26,10 @@ pipeline {
 
     stages {
             stage('Build') {
-                steps {
-                    sh javaBuild()
-                }
+                sh javaBuild()
             }
             stage('Test') {
-                steps {
-                    sh javaTest()
-                }
+                sh javaTest()
                 post {
                     always {
                         junit 'target/surefire-reports/*.xml'
