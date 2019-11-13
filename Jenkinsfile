@@ -1,3 +1,5 @@
+@Library("jenkins-shared-libraries") _
+
 pipeline {
     agent any
 
@@ -25,12 +27,12 @@ pipeline {
     stages {
             stage('Build') {
                 steps {
-                    sh 'mvn -B -Dstyle.color=always -DskipTests clean package'
+                    javaBuild()
                 }
             }
             stage('Test') {
                 steps {
-                    sh 'mvn -Dstyle.color=always test'
+                    javaTest()
                 }
                 post {
                     always {
