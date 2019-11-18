@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-maven
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-maven
+  template:
+    metadata:
+      labels:
+        app: spring-maven
+    spec:
+      containers:
+      - name: spring-maven
+        image: "coregatekit/spring-maven:latest"
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+---
+apiVersion: 1
+kind: Service
+metadata:
+  name: spring-maven
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    tartgetPort: 8080
+  selector:
+    app: spring-maven

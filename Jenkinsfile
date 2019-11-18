@@ -1,7 +1,14 @@
 @Library("jenkins-shared-libraries") _
 
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            kubernetesDeploy configs: 'config', kubeConfig: [path: '/home/.kube'], 
+            kubeconfigId: '', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], 
+            textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', 
+            serverUrl: 'https://10.0.15.14:6443']
+        }
+    }
 
     environment {
         dockerImage = ''
@@ -58,6 +65,11 @@ pipeline {
                             pushDocker("coregatekit/spring-maven:${params.Tag}")
                         }
                     }
+                }
+            }
+            stage('Deploy on K8s') {
+                steps {
+                    sh 'kubectl create deployment.yaml'
                 }
             }
         }
