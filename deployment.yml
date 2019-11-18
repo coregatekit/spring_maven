@@ -19,7 +19,7 @@ spec:
         - containerPort: 8080
         imagePullPolicy: Always
 ---
-apiVersion: 1
+apiVersion: v1
 kind: Service
 metadata:
   name: spring-maven
