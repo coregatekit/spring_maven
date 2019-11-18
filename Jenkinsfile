@@ -63,10 +63,12 @@ pipeline {
             stage('Deploy on K8s') {
                 steps {
                     // sh 'kubectl create deployment.yaml'
-                    kubernetesDeploy configs: 'config', kubeConfig: [path: '/home/.kube'], 
-                    kubeconfigId: '', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], 
-                    textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', 
-                    serverUrl: 'https://10.0.15.14:6443']
+                    kubernetesDeploy
+                    configs: 'config', 
+                    kubeConfig: [path: '/home/.kube'], 
+                    kubeconfigId: '', secretName: '', 
+                    ssh: [sshCredentialsId: '*', sshServer: ''], 
+                    textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://10.0.15.14:6443']
                 }
             }
         }
