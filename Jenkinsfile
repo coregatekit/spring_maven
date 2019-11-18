@@ -62,13 +62,12 @@ pipeline {
             }
             stage('Deploy on K8s') {
                 steps {
-                    // sh 'kubectl create deployment.yaml'
-                    kubernetesDeploy
-                    configs: 'config', 
-                    kubeConfig: [path: '/home/.kube'], 
-                    kubeconfigId: '', secretName: '', 
-                    ssh: [sshCredentialsId: '*', sshServer: ''], 
-                    textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://10.0.15.14:6443']
+                    kubernetesDeploy(kubeconfigId: 'kubernetes',               // REQUIRED
+                    configs: '/home/.kube/config', // REQUIRED
+                    enableConfigSubstitution: false,
+                    secretNamespace: 'spring-maven',
+                    secretName: 'spring-maven',
+                    )
                 }
             }
         }
