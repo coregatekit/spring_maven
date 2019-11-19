@@ -61,7 +61,7 @@ pipeline {
             // }
             stage('Deploy') {
                 steps {
-                    kubernetesDeploy configs: 'config', kubeConfig: [path: '/home/.kube/'], kubeconfigId: 'kubernetes', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://10.0.15.14']
+                    kubernetesDeploy configs: 'config', kubeConfig: [path: '/home/.kube/'], kubeconfigId: 'kubernetes', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://10.0.15.14:6443']
                     sh 'kubectl apply -f deployment.yml'
                 }
             }
