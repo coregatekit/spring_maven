@@ -34,13 +34,15 @@ pipeline {
 
         stage('Build image') {
             steps {
-                docker.withRegistry(
+                script {
+                    docker.withRegistry(
                     credentialsId: 'Dockerhub',
                     url: 'https://index.docker.io/v1') {
                         docker.build("coregatekit/spring-maven:${params.Tag}", '.')
                 }
+                }
 
-                dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
+                // dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
             }
         }
 
