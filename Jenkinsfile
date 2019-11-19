@@ -1,7 +1,7 @@
 @Library("jenkins-shared-libraries") _
 
 pipeline {
-    agent { label 'docker' }
+    agent { label 'slave0' }
 
     environment {
         dockerImage = ''
