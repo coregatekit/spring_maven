@@ -1,8 +1,8 @@
 @Library("jenkins-shared-libraries") _
 
-pipeline {
-    agent any
-
+podTemplate(containers: [
+    containerTemplate(name: 'maven', image 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
+]) {
     environment {
         dockerImage = ''
         MAVEN_OPTS = '-Djansi.force=true'
@@ -14,61 +14,59 @@ pipeline {
         description: 'Set tag for docker image')
     }
 
-    tools { 
-        maven 'Maven 3.6.2' 
-        jdk 'jdk8' 
-    }
-
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         ansiColor('xterm')
     }
 
-    stages {
-            stage('Build') {
-                steps {
+    node(POD_LABEL) {
+        stage('Pull project') {
+            git 'https://github.com/coregatekit/spring-maven-onkube.git'
+            conatiner('maven') {
+                step('Build') {
                     javaBuild()
                 }
             }
-            stage('Test') {
-                steps {
-                    javaTest()
-                }
-                post {
-                    always {
-                        junit 'target/surefire-reports/*.xml'
-                    }
-                }
+        }
+
+        stage('Test') {
+            step {
+                javaTest()
             }
-            stage('Build image') {
-                steps {
-                    script {
-                        // dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
-                        dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
-                    }
-                }
-            }
-            stage('Push image') {
-                steps {
-                    script {
-                        withDockerRegistry(
-                            credentialsId: 'Dockerhub',
-                            url: 'https://index.docker.io/v1/'
-                        ) {
-                            pushDocker("coregatekit/spring-maven:${params.Tag}")
-                        }
-                    }
-                }
-            }
-            stage('Deploy on K8s') {
-                steps {
-                    kubernetesDeploy(kubeconfigId: 'kubernetes',               // REQUIRED
-                    configs: '/home/.kube/config', // REQUIRED
-                    enableConfigSubstitution: false,
-                    secretNamespace: 'spring-maven',
-                    secretName: 'spring-maven',
-                    )
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
+
+        stage('Build image') {
+            step {
+                script {
+                    dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
+                }
+            }
+        }
+
+        stage('Push image') {
+            step {
+                script {
+                    withDockerRegistry(
+                        credentialsId: 'Dockerhub',
+                        url: 'https://index.docker.io/v1'
+                    ) {
+                        pushDocker("coregatekit/spring-maven:${params.Tag}")
+                    }
+                }
+            }
+        }
+
+        stage('Deploy on K8s') {
+            step {
+                script {
+                    sh 'kubectl apply -f deployment.yml'
+                }
+            }
+        }
+    }
 }
