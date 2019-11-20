@@ -62,8 +62,8 @@ pipeline {
             }
             stage('Deploy on K8s') {
                 steps {
-                    // sh 'kubectl apply -f k8s/deployment.yaml';
-                    sh 'kubectl version'
+                    sh 'kubectl apply -f k8s/deployment.yaml';
+                    // sh 'kubectl version'
                 }
             }
         }
