@@ -48,18 +48,18 @@ pipeline {
                     }
                 }
             }
-            stage('Push image') {
-                steps {
-                    script {
-                        withDockerRegistry(
-                            credentialsId: 'Dockerhub',
-                            url: 'https://index.docker.io/v1/'
-                        ) {
-                            pushDocker("coregatekit/spring-maven:${params.Tag}")
-                        }
-                    }
-                }
-            }
+            // stage('Push image') {
+            //     steps {
+            //         script {
+            //             withDockerRegistry(
+            //                 credentialsId: 'Dockerhub',
+            //                 url: 'https://index.docker.io/v1/'
+            //             ) {
+            //                 pushDocker("coregatekit/spring-maven:${params.Tag}")
+            //             }
+            //         }
+            //     }
+            // }
             stage('Deploy on K8s') {
                 steps {
                     sh 'kubectl apply -f k8s/deployment.yaml';
