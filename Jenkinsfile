@@ -20,59 +20,59 @@ pipeline {
     }
 
     stages {
-        stage('Kubernetes Connection') {
+        // stage('Kubernetes Connection') {
+        //     steps {
+        //         script {
+        //             sh 'kubectl version'
+        //         }
+        //     }
+        // }
+        stage('Build') {
+            steps {
+                javaBuild()
+            }
+        }
+
+        stage('Tests') {
+            steps {
+                javaTest()
+            }
+        }
+
+        stage('Build image') {
             steps {
                 script {
-                    sh 'kubectl version'
+                    docker.withRegistry(
+                    credentialsId: 'Dockerhub',
+                    url: 'https://index.docker.io/v1') {
+                        docker.build("coregatekit/spring-maven:${params.Tag}", '.')
+                }
+                }
+
+                // dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
+            }
+        }
+
+        stage('Push image') {
+            steps {
+                script {
+                    docker.withRegistry(
+                        credentialsId: 'Dockerhub',
+                        url: 'https://index.docker.io/v1'
+                    ) {
+                        docker.push()
+                    }
                 }
             }
         }
-        // stage('Build') {
-        //     steps {
-        //         javaBuild()
-        //     }
-        // }
 
-        // stage('Tests') {
-        //     steps {
-        //         javaTest()
-        //     }
-        // }
-
-        // stage('Build image') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry(
-        //             credentialsId: 'Dockerhub',
-        //             url: 'https://index.docker.io/v1') {
-        //                 docker.build("coregatekit/spring-maven:${params.Tag}", '.')
-        //         }
-        //         }
-
-        //         // dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
-        //     }
-        // }
-
-        // stage('Push image') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry(
-        //                 credentialsId: 'Dockerhub',
-        //                 url: 'https://index.docker.io/v1'
-        //             ) {
-        //                 docker.push()
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage('Deploy') {
-        //     steps {
-        //         script {
-        //             deployToKubernetes(${params.Tag}, 'kubeconfig')
-        //         }
-        //     }
-        // }
+        stage('Deploy') {
+            steps {
+                script {
+                    sh 'kubectl apply -f k8s/deployment.yaml'
+                }
+            }
+        }
     }
 }
 
