@@ -22,7 +22,9 @@ pipeline {
     stages {
         stage('Kubernetes Connection') {
             steps {
-                'kubectl version'
+                script {
+                    'kubectl version'
+                }
             }
         }
         // stage('Build') {
