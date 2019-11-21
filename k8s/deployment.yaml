@@ -12,6 +12,16 @@ spec:
       labels:
         app: spring-maven
     spec:
+      affinifty:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - spring-maven
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: spring-maven
         image: "coregatekit/spring-maven:latest"
