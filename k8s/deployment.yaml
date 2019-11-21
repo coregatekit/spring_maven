@@ -17,7 +17,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
-              - key: app
+              - key: spring-maven
                 operator: In
                 values:
                 - spring-maven
