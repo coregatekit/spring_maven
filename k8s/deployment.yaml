@@ -12,12 +12,12 @@ spec:
       labels:
         app: spring-maven
     spec:
-      affinifty:
+      affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
-              - key: spring-maven
+              - key: app
                 operator: In
                 values:
                 - spring-maven
