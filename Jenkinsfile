@@ -55,7 +55,7 @@ pipeline {
                     mvn sonar:sonar \
                     -Dsonar.projectKey=spring-maven \
                     -Dsonar.host.url=http://52.76.237.240:9000 \
-                    -Dsonar.login=springmaven:b1aff614e83ef464361e3d0f8afe5eae181213b1
+                    -Dsonar.login=b1aff614e83ef464361e3d0f8afe5eae181213b1
                     """
                 }
             }
