@@ -25,11 +25,13 @@ pipeline {
     }
 
     stages {
+
             stage('Build') {
                 steps {
                     javaBuild()
                 }
             }
+
             stage('Test') {
                 steps {
                     javaTest()
@@ -40,6 +42,7 @@ pipeline {
                     }
                 }
             }
+
             stage('Sonarqube') {
                 // environment {
                 //     scannerHome = tool 'sonarqube-scanner'
@@ -59,14 +62,36 @@ pipeline {
                     """
                 }
             }
-            stage('Build image') {
+
+            stage('Nexus upload') {
                 steps {
-                    script {
-                        // dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
-                        dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
+                    nexusArtifactUploader {
+                        nexusVersion('nexus3')
+                        protocol('http')
+                        nexusUrl('http://52.76.237.240:8081/')
+                        groupId('nx-admin')
+                        version('3.18.1-01')
+                        repository('Spring-Repo')
+                        credentialsId('nexus')
+                        artifact {
+                            artifactId('nexus-artifact-uploader')
+                            type('jar')
+                            classifier('debug')
+                            file('./target/Spring-Maven-0.0.1-SNAPSHOT.jar')
+                        }
                     }
                 }
             }
+
+            // stage('Build image') {
+            //     steps {
+            //         script {
+            //             // dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
+            //             dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
+            //         }
+            //     }
+            // }
+
             // stage('Push image') {
             //     steps {
             //         script {
