@@ -15,8 +15,8 @@ pipeline {
     }
 
     tools { 
-        maven 'Maven 3.6.2' 
-        jdk 'jdk8' 
+        maven 'maven' 
+        jdk 'jdk' 
     }
 
     options {
@@ -60,11 +60,11 @@ pipeline {
             //         }
             //     }
             // }
-            stage('Deploy on K8s') {
-                steps {
-                    sh 'kubectl apply -f k8s/deployment.yaml';
-                    // sh 'kubectl version'
-                }
-            }
+            // stage('Deploy on K8s') {
+            //     steps {
+            //         sh 'kubectl apply -f k8s/deployment.yaml';
+            //         // sh 'kubectl version'
+            //     }
+            // }
         }
 }
