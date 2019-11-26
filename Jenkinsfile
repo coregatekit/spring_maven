@@ -41,16 +41,22 @@ pipeline {
                 }
             }
             stage('Sonarqube') {
-                environment {
-                    scannerHome = tool 'sonarqube-scanner'
-                }
+                // environment {
+                //     scannerHome = tool 'sonarqube-scanner'
+                // }
                 steps {
-                    withSonarQubeEnv('sonarqube') {
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                    timeout(time: 10, unit: 'MINUTES') {
-                        waitForQualityGate abortPipeline: true
-                    }
+                    // withSonarQubeEnv('sonarqube') {
+                    //     sh "${scannerHome}/bin/sonar-scanner"
+                    // }
+                    // timeout(time: 10, unit: 'MINUTES') {
+                    //     waitForQualityGate abortPipeline: true
+                    // }
+                    sh """
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=spring-maven \
+                    -Dsonar.host.url=http://52.76.237.240:9000 \
+                    -Dsonar.login=springmaven
+                    """
                 }
             }
             stage('Build image') {
