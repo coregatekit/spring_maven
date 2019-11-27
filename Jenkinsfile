@@ -65,31 +65,32 @@ pipeline {
 
             stage('Nexus upload') {
                 steps {
-                    nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './target/Spring-Maven-0.0.1-SNAPSHOT.jar', type: 'com.example']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '10.21.0.132:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'http://10.21.0.132:8081/repository/Spring-Repo/', version: '0.0.1-SNAPSHOT'
+                    nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './target/Spring-Maven-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '10.21.0.132:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Spring-Repo/', version: '0.0.1-SNAPSHOT'
                 }
             }
 
-            // stage('Build image') {
-            //     steps {
-            //         script {
-            //             // dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
-            //             dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
-            //         }
-            //     }
-            // }
+            stage('Build image') {
+                steps {
+                    script {
+                        // dockerImage = docker.build("coregatekit/spring-maven:${params.Tag}")
+                        dockerImage = buildDocker("coregatekit/spring-maven:${params.Tag}")
+                    }
+                }
+            }
 
-            // stage('Push image') {
-            //     steps {
-            //         script {
-            //             withDockerRegistry(
-            //                 credentialsId: 'Dockerhub',
-            //                 url: 'https://index.docker.io/v1/'
-            //             ) {
-            //                 pushDocker("coregatekit/spring-maven:${params.Tag}")
-            //             }
-            //         }
-            //     }
-            // }
+            stage('Push image') {
+                steps {
+                    script {
+                        withDockerRegistry(
+                            credentialsId: 'dockerhub-komchan',
+                            url: 'https://index.docker.io/v1/'
+                        ) {
+                            pushDocker("coregatekit/spring-maven:${params.Tag}")
+                        }
+                    }
+                }
+            }
+
             // stage('Deploy on K8s') {
             //     steps {
             //         sh 'kubectl apply -f k8s/deployment.yaml';
