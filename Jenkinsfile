@@ -65,7 +65,7 @@ pipeline {
 
             stage('Nexus upload') {
                 steps {
-                    nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './target/Spring-Maven-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus', groupId: 'org.springframework.boot', nexusUrl: '52.76.237.240:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Spring-Repo', version: '2.2.1.RELEASE'
+                    nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './target/Spring-Maven-0.0.1-SNAPSHOT.jar', type: 'com.example']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '10.21.0.132:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'http://10.21.0.132:8081/repository/Spring-Repo/', version: '0.0.1-SNAPSHOT'
                 }
             }
 
