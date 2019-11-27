@@ -12,8 +12,6 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 @Entity
@@ -38,8 +36,8 @@ public class Plane {
         this.planeModel = planeModel;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "hubId", nullable = false)
-    @JsonIgnore
+    @ManyToOne()   
+    @JoinColumn(name= "hubId") 
+    @NotNull
     private Hub hub;
 }

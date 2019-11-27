@@ -28,12 +28,22 @@ public class PlaneController {
         return planeRepository.findAll();
     }
 
-    @PostMapping("/Planes")
-    public Plane postPlane(@RequestBody Map<String, Object> body){
-        Optional<Hub> hub = hubRepository.findById(Long.valueOf(body.get("hubId").toString()));
+    // @PostMapping("/Planes")
+    // public Plane postPlane(@RequestBody Map<String, Object> body){
+    //     Optional<Hub> hub = hubRepository.findById(Long.valueOf(body.get("hubId").toString()));
+    //     Plane plane = new Plane();
+    //     plane.setPlaneName(body.get("planeName").toString());
+    //     plane.setPlaneModel(body.get("planeModel").toString());
+    //     plane.setHub(hub.get());
+    //     return planeRepository.save(plane);
+    // }
+
+    @PostMapping("/Planes/{planeName}/{planeModel}/{hubId}")
+    public Plane postPlane(@PathVariable String planeName, @PathVariable String planeModel, @PathVariable Long hubId){
+        Optional<Hub> hub = hubRepository.findById(hubId);
         Plane plane = new Plane();
-        plane.setPlaneName(body.get("planeName").toString());
-        plane.setPlaneModel(body.get("planeModel").toString());
+        plane.setPlaneName(planeName);
+        plane.setPlaneModel(planeModel);
         plane.setHub(hub.get());
         return planeRepository.save(plane);
     }
