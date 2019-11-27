@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import com.example.demo.Entity.Hub;
 import com.example.demo.Entity.Plane;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,9 +21,16 @@ public class PlaneJunitTest {
 
     @Test
     public void PlaneNameNotPatter() {
+        Hub hub = new Hub();
+        hub.setHubName("Changi Airport");
+        hub.setHubCode("SIN");
+        entityManager.persist(hub);
+        entityManager.flush();
+
         Plane plane = new Plane();
         plane.setPlaneName("สุวรรณภูมิ");
         plane.setPlaneModel("Airbus A350-800");
+        plane.setHub(hub);
         
         try {
             entityManager.persist(plane);
@@ -37,9 +45,16 @@ public class PlaneJunitTest {
 
     @Test
     public void PlaneNullModel() {
+        Hub hub = new Hub();
+        hub.setHubName("Changi Airport");
+        hub.setHubCode("SIN");
+        entityManager.persist(hub);
+        entityManager.flush();
+
         Plane plane = new Plane();
         plane.setPlaneName("นครราชสีมา");
         plane.setPlaneModel("Airbus A350-900");
+        plane.setHub(hub);
 
         try {
             entityManager.persist(plane);
