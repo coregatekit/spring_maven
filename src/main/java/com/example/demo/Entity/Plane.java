@@ -38,9 +38,8 @@ public class Plane {
         this.planeModel = planeModel;
     }
 
-    
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "hubId", nullable = false)
     @JsonIgnore
     private Hub hub;
 }

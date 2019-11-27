@@ -15,8 +15,8 @@ import lombok.Data;
 @Data
 public class Hub {
     @Id
-    @SequenceGenerator(name="Plane_seq", sequenceName = "Plane_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Plane_seq")
+    @SequenceGenerator(name="Hub_seq", sequenceName = "Hub_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Hub_seq")
     private Long id;
 
     @Column(unique=true)
