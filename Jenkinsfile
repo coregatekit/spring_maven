@@ -86,6 +86,7 @@ pipeline {
                             url: 'https://index.docker.io/v1/'
                         ) {
                             pushDocker("coregatekit/spring-maven:${params.Tag}")
+                            pushDocker("coregatekit/spring-maven:latest")
                         }
                     }
                 }
