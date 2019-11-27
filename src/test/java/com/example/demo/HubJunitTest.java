@@ -6,7 +6,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import com.example.demo.Entity.Hub;
-import com.example.demo.Entity.Plane;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;

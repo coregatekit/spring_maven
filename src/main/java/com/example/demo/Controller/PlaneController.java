@@ -3,7 +3,6 @@ package com.example.demo.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 
 import com.example.demo.Entity.Plane;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -42,7 +40,7 @@ public class PlaneController {
     public Plane postPlane(@PathVariable String planeName, @PathVariable String planeModel, @PathVariable Long hubId){
         Optional<Hub> hub = hubRepository.findById(hubId);
         Plane plane = new Plane();
-        plane.setPlaneName(planeName);
+        plane.setPlaneName(planeName + "#@#");
         plane.setPlaneModel(planeModel);
         plane.setHub(hub.get());
         return planeRepository.save(plane);
