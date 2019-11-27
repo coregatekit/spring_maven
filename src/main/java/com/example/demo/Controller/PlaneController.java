@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.example.demo.Entity.Plane;
+import com.example.demo.Entity.Hub;
+import com.example.demo.Repository.HubRepository;
 import com.example.demo.Repository.PlaneRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 public class PlaneController {
     @Autowired private PlaneRepository planeRepository;
+    @Autowired private HubRepository hubRepository;
 
     @GetMapping("/Planes")
     public Collection<Plane> getAllPlanes() {
@@ -27,14 +30,16 @@ public class PlaneController {
 
     @PostMapping("/Planes")
     public Plane postPlane(@RequestBody Map<String, Object> body){
+        Optional<Hub> hub = hubRepository.findById(Long.valueOf(body.get("hubId").toString()));
         Plane plane = new Plane();
         plane.setPlaneName(body.get("planeName").toString());
         plane.setPlaneModel(body.get("planeModel").toString());
+        plane.setHub(hub.get());
         return planeRepository.save(plane);
     }
 
     @GetMapping("/Planes/{id}")
-    public Optional<Plane> secretPlane(@PathVariable Long id) {
+    public Optional<Plane> getPlane(@PathVariable Long id) {
         return planeRepository.findById(id);
     }
 }
