@@ -63,13 +63,13 @@ pipeline {
                 }
             }
 
-            stage('Nexus upload') {
-                steps {
-                    // sh 'mkdir zip'
-                    zip zipFile: './zip/test.zip', archive: false, dir: ''
-                    nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './zip/test.zip', type: 'zip']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '35.240.192.26:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Spring-Repo/', version: '0.0.1-SNAPSHOT'
-                }
-            }
+            // stage('Nexus upload') {
+            //     steps {
+            //         // sh 'mkdir zip'
+            //         zip zipFile: './zip/test.zip', archive: false, dir: ''
+            //         nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './zip/test.zip', type: 'zip']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '35.240.192.26:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Spring-Repo/', version: '0.0.1-SNAPSHOT'
+            //     }
+            // }
 
             stage('Build image') {
                 steps {
