@@ -27,8 +27,10 @@ pipeline {
 
     stages {
             stage('Fetch Tag') {
-                sh 'git fetch'
-                sh 'git describe --abbrev=0 --tags'
+                steps {
+                    sh 'git fetch'
+                    sh 'git describe --abbrev=0 --tags'
+                }
             }
 
             stage('Build') {
