@@ -6,7 +6,7 @@ pipeline {
     environment {
         dockerImage = ''
         MAVEN_OPTS = '-Djansi.force=true'
-        latestTag = sh 'git describe --abbrev=0 --tags'
+        latestTag = ''
     }
 
     parameters {
@@ -26,6 +26,10 @@ pipeline {
     }
 
     stages {
+            stage('Fetch Tag') {
+                sh 'git fetch'
+                sh 'git describe --abbrev=0 --tags'
+            }
 
             stage('Build') {
                 steps {
