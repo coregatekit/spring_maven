@@ -1,19 +1,17 @@
 @Library("jenkins-shared-libraries") _
 
-def latestTag
-
 pipeline {
     agent any
 
     environment {
         dockerImage = ''
         MAVEN_OPTS = '-Djansi.force=true'
+        latestTag = sh 'git describe --abbrev=0 --tags'
     }
 
     parameters {
-        latestTag = sh 'git describe --abbrev=0 --tags'
         string(name: 'Tag',
-        defaultValue: $latestTag,
+        defaultValue: "${$latestTag}",
         description: 'Set tag for docker image')
     }
 
