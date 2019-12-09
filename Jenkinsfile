@@ -65,9 +65,9 @@ pipeline {
 
             stage('Nexus upload') {
                 steps {
-                    sh 'mkdir zip'
+                    // sh 'mkdir zip'
                     zip zipFile: './zip/test.zip', archive: false, dir: ''
-                    nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './zip/test.zip', type: 'zip']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '34.87.28.55:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Spring-Repo/', version: '0.0.1-SNAPSHOT'
+                    nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './zip/test.zip', type: 'zip']], credentialsId: 'nexus-joekim', groupId: 'com.example', nexusUrl: '34.87.28.55:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Spring-Repo/', version: 'nexus3'
                 }
             }
 
