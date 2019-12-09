@@ -80,19 +80,19 @@ pipeline {
                 }
             }
 
-            stage('Push image') {
-                steps {
-                    script {
-                        withDockerRegistry(
-                            credentialsId: 'coregatekit-dockerhub',
-                            url: 'https://index.docker.io/v1/'
-                        ) {
-                            pushDocker("coregatekit/spring-maven:${params.Tag}")
-                            pushDocker("coregatekit/spring-maven:latest")
-                        }
-                    }
-                }
-            }
+            // stage('Push image') {
+            //     steps {
+            //         script {
+            //             withDockerRegistry(
+            //                 credentialsId: 'coregatekit-dockerhub',
+            //                 url: 'https://index.docker.io/v1/'
+            //             ) {
+            //                 pushDocker("coregatekit/spring-maven:${params.Tag}")
+            //                 pushDocker("coregatekit/spring-maven:latest")
+            //             }
+            //         }
+            //     }
+            // }
 
             // stage('Deploy on K8s') {
             //     steps {
