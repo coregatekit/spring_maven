@@ -16,6 +16,11 @@ pipeline {
     //     description: 'Set tag for docker image')
     // }
 
+    parameters {
+        gitParameter branch: '', branchFilter: '.*', defaultValue: 'origin/master', description: '', name: 'Tag', quickFilterEnabled: false, selectedValue: 'NONE', sortMode: 'NONE', tagFilter: '*', type: 'PT_TAG'
+    }
+
+
     tools { 
         maven 'maven' 
         jdk 'jdk' 
