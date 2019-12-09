@@ -1,5 +1,7 @@
 @Library("jenkins-shared-libraries") _
 
+def latestTag
+
 pipeline {
     agent any
 
@@ -8,11 +10,11 @@ pipeline {
         MAVEN_OPTS = '-Djansi.force=true'
     }
 
-    parameters {
-        string(name: 'Tag',
-        defaultValue: 'latest',
-        description: 'Set tag for docker image')
-    }
+    // parameters {
+    //     string(name: 'Tag',
+    //     defaultValue: 'latest',
+    //     description: 'Set tag for docker image')
+    // }
 
     tools { 
         maven 'maven' 
