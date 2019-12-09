@@ -10,16 +10,12 @@ pipeline {
         MAVEN_OPTS = '-Djansi.force=true'
     }
 
-    // parameters {
-    //     string(name: 'Tag',
-    //     defaultValue: 'latest',
-    //     description: 'Set tag for docker image')
-    // }
-
     parameters {
-        gitParameter branch: '', branchFilter: '.*', defaultValue: 'origin/master', description: '', name: 'Tag', quickFilterEnabled: false, selectedValue: 'NONE', sortMode: 'NONE', tagFilter: '*', type: 'PT_TAG'
+        latestTag = sh 'git describe --abbrev=0 --tags'
+        string(name: 'Tag',
+        defaultValue: $latestTag,
+        description: 'Set tag for docker image')
     }
-
 
     tools { 
         maven 'maven' 
