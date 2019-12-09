@@ -84,7 +84,7 @@ pipeline {
                 steps {
                     script {
                         withDockerRegistry(
-                            credentialsId: 'dockerhub-komchan',
+                            credentialsId: 'coregatekit-dockerhub',
                             url: 'https://index.docker.io/v1/'
                         ) {
                             pushDocker("coregatekit/spring-maven:${params.Tag}")
