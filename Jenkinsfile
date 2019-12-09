@@ -40,6 +40,7 @@ pipeline {
                             extensions: [],
                             gitTool: 'Default',
                             submoduleCfg: [],
+                            credentialsId: 'coregatekit-github',
                             userRemoteConfigs: [[url: 'https://github.com/coregatekit/spring_maven.git']]
                             ])
                 }
