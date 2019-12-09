@@ -9,10 +9,16 @@ pipeline {
         latestTag = ''
     }
 
+    // parameters {
+    //     string(name: 'Tag',
+    //     defaultValue: "latest",
+    //     description: 'Set tag for docker image')
+    // }
+
     parameters {
-        string(name: 'Tag',
-        defaultValue: "${$latestTag}",
-        description: 'Set tag for docker image')
+        gitParameter name: 'TAG',
+                     type: 'PT_TAG',
+                     defaultValue: 'master'
     }
 
     tools { 
@@ -26,10 +32,16 @@ pipeline {
     }
 
     stages {
-            stage('Fetch Tag') {
+            stage('Example') {
                 steps {
-                    sh 'git fetch'
-                    sh 'git describe --abbrev=0 --tags'
+                    checkout([$class: 'GitSCM',
+                            branches: [[name: "${params.TAG}"]],
+                            doGenerateSubmoduleConfigurations: false,
+                            extensions: [],
+                            gitTool: 'Default',
+                            submoduleCfg: [],
+                            userRemoteConfigs: [[url: 'https://github.com/coregatekit/spring_maven.git']]
+                            ])
                 }
             }
 
