@@ -43,33 +43,33 @@ pipeline {
                 }
             }
 
-            stage('Sonarqube') {
+            // stage('Sonarqube') {
                 // environment {
                 //     scannerHome = tool 'sonarqube-scanner'
                 // }
-                steps {
+                // steps {
                     // withSonarQubeEnv('sonarqube') {
                     //     sh "${scannerHome}/bin/sonar-scanner"
                     // }
                     // timeout(time: 10, unit: 'MINUTES') {
                     //     waitForQualityGate abortPipeline: true
                     // }
-                    sh """
-                   mvn sonar:sonar \
-                    -Dsonar.projectKey=spring-maven \
-                    -Dsonar.host.url=http://34.87.28.55:9000 \
-                    -Dsonar.login=fa6089b68edac67efe49890536ed918982356378
-                    """
-                }
-            }
+                    // sh """
+                    // mvn sonar:sonar \
+                    // -Dsonar.projectKey=spring-maven \
+                    // -Dsonar.host.url=http://34.87.28.55:9000 \
+                    // -Dsonar.login=fa6089b68edac67efe49890536ed918982356378
+                    // """
+                // }
+            // }
 
-            stage('Nexus upload') {
-                steps {
+            // stage('Nexus upload') {
+                // steps {
                     // sh 'mkdir zip'
-                    zip zipFile: './zip/test.zip', archive: false, dir: ''
-                    nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './zip/test.zip', type: 'zip']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '34.87.28.55:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Spring-Repo/', version: '0.0.1-SNAPSHOT'
-                }
-            }
+                    // zip zipFile: './zip/test.zip', archive: false, dir: ''
+                    // nexusArtifactUploader artifacts: [[artifactId: 'Spring-Maven', classifier: '', file: './zip/test.zip', type: 'zip']], credentialsId: 'nexus', groupId: 'com.example', nexusUrl: '34.87.28.55:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'Spring-Repo/', version: '0.0.1-SNAPSHOT'
+                // }
+            // }
 
             stage('Build image') {
                 steps {
